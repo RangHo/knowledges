@@ -1,4 +1,7 @@
+# OS-specific cache files
 .DS_Store
+
+# Node build artifacts
 node_modules
 /build
 /.svelte-kit
@@ -10,3 +13,6 @@ node_modules
 .output
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Org-roam cache database
+org-roam.db
