@@ -1,0 +1,7 @@
+:PROPERTIES:
+:ID:       e83ca005-b974-4212-b8db-8ad1edb1bd81
+:END:
+#+title: ODROID-HC4 Single-board Computer
+
+*오드로이드 HC4*​는 [[https:www.hardkernel.com][하드커널]]에서 개발한 싱글 보드 컴퓨터이다.
+

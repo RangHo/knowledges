@@ -1,0 +1,6 @@
+:PROPERTIES:
+:ID:       01fe8bfe-c66f-409a-9efc-ae535d1fab0b
+:END:
+#+title: Emacs Lisp
+
+*Emacs Lisp(이맥스 리스프)*​는 [[https:www.gnu.org/software/emacs/][이맥스]]에서 사용하는 [[id:dfa761db-9e91-472c-b270-2f3737bbe046][리스프]] 언어의 변종이다. Lisp-2 언어로 분류된다.

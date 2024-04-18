@@ -1,0 +1,17 @@
+:PROPERTIES:
+:ID:       3572e2f8-d96b-491e-8ae3-b590f9219f1d
+:END:
+#+title: 모모이 사워
+
+*모모이 사워 (/Momoi Sour/)*​는 [[id:30fda4d0-3b7d-4b66-bb27-d8d74990988b][미도리 사워]]를 베이스로 한 복숭아맛 칵테일이다.
+기본 레시피에서 사용하는 미도리를 피치 슈냅스로 교체한다.
+모티브는 [[https:bluearchive.nexon.com][블루 아카이브]]의 [[https:blue-utils.me/student-detail/momoi][사이바 모모이]].
+
+* 레시피
+
+1. 글래스에 얼음을 채운다.
+2. 피치 슈냅스 2 oz.
+3. 보드카 1 oz.
+4. 레몬 주스 1 oz.
+5. 라임 주스 1 oz.
+6. 클럽 소다로 잔을 채운다.
