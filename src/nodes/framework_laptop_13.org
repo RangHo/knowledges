@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       f474da4b-2e35-496f-b48c-52db6048ecab
+:END:
+#+title: Framework Laptop 13
+
+*Framework Laptop 13*​은 [[https://frame.work/][Framework]] 사에서 제작하는 수리 친화적인 랩톱 컴퓨터이다.
+
+* Framework Laptop 13 AMD 1st Generation
+1세대 Framework Laptop 13 AMD는 2023년 5월에 공개되었다.
+내가 가지고 있는 사양은 아래와 같다.
+
+| CPU     | AMD Ryzen 7 7840U          |
+| iGPU    | AMD Radeon 780M Graphics   |
+| RAM     | DDR5 16 GB \times2              |
+| Storage | Samsung SSD 980 Pro (2 TB) |
