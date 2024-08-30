@@ -8,7 +8,7 @@
 
 * 원리
 
-[[https://upload.wikimedia.org/wikipedia/commons/d/da/MokaCoffeePot.svg][모카 포트 구조도.]]
+[[https://upload.wikimedia.org/wikipedia/commons/d/da/MokaCoffeePot.svg]]
 
 모카 포트는 다른 커피 제작 방식과 달리, /아래에서 위로/ 커피를 추출한다는 특징이 있다. 위 구조도에서 A에는 물, B에는 커피가루를 담아 불에 올리면 C에 추출된 커피가 올라온다. A와 B 사이에는 고무 패킹으로 밀봉되어 있다.
 

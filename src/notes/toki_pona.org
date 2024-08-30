@@ -1,0 +1,5 @@
+:PROPERTIES:
+:ID:       5cca8444-0b93-46bb-b904-f6bfca21470f
+:END:
+#+title: toki pona
+

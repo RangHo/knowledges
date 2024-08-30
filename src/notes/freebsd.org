@@ -5,9 +5,13 @@
 
 *FreeBSD*​는 Berkeley Software Distribution에서 파생된 UNIX 운영체제이다.
 
+* Framework Laptop 13 AMD 1세대 관련 문제 및 해결법
+
 * Framework Laptop 13 AMD 1세대에서 FreeBSD 부팅하기
 [[id:f474da4b-2e35-496f-b48c-52db6048ecab][Framework Laptop 13]]에서 FreeBSD를 부팅하려면 몇 가지 준비가 필요하다.
 (=FreeBSD 15-CURRENT (20240605)= 기준)
 
-- 부팅 시 ~hint.uart.{0,1}.disabled~ 플래그를 =1=로 설정할 것.
+- 부팅 시 ~hint.uart.{0,1}.disabled~ 플래그를 1​로 설정할 것.
   [[https://lists.freebsd.org/archives/freebsd-current/2024-March/005696.html][AMD 환경에서 UART 장치 초기화는 BIOS에서 담당하는 듯]]한데, 이 부분이 제대로 설정되어 있지 않으면 중간에 부팅이 멎는다.
+
+* Framework Laptop

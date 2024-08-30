@@ -1,0 +1,8 @@
+:PROPERTIES:
+:ID:       f7ea9def-6a6b-4798-8336-9a9b5d00c208
+:END:
+#+title: Scheme
+
+*Scheme(스킴)*​은 [[id:dfa761db-9e91-472c-b270-2f3737bbe046][리스프]] 언어의 변종이다. Lisp-1 언어로 분류된다.
+
+* 구현체
