@@ -3,4 +3,150 @@
 :END:
 #+title: ODROID-HC4 Single-board Computer
 
-*오드로이드 HC4*​는 [[https:www.hardkernel.com][하드커널]]에서 개발한 싱글 보드 컴퓨터이다.
+*오드로이드 HC4*​는 [[https://www.hardkernel.com][하드커널]]에서 개발한 싱글 보드 컴퓨터이다.
+
+* 하드웨어
+- CPU :: Amlogic S905X3 (Quad-core Cortex-A55 @ 1.8GHz)
+- 메모리 :: 4 GiB (DDR4 PC4-21333)
+- 저장공간 :: microSD (UHS-I SDR104까지 지원)
+- 네트워크 :: Realtek RTL8211F Gigabit Ethernet
+- I/O :: USB 2.0 포트 (\times1), UART 시리얼 포트 (\times1), SATA 포트 (\times2)
+  
+* 펌웨어
+하드커널에서 수정한 [[https://open-power.github.io/petitboot/index.html][Petitboot]]가 SPI 플래시에 설치되어 있다.
+
+* 소프트웨어
+정식으로 지원하는 OS는 [[https://wiki.odroid.com/odroid-hc4/os_images/ubuntu][Ubuntu 20.04]]이며, MATE 데스크탑이 설치된 버전과 데스크탑이 없는 버전을 제공한다.
+
+그 외에 설치할 수 있는 다른 OS로는 [[https://www.armbian.com/odroid-hc4/][Armbian]]과 [[https://dietpi.com/#download][DietPi]]가 있다.
+두 OS 모두 [[id:2b9ffbeb-e46b-4959-9038-8e922a6faf29][Debian]] 기반이므로 사용 방법은 비슷하다.
+
+* 팁
+** 기본 설치된 부트로더 우회하기
+기본 설치된 부트로더는 예전 커널 버전을 염두에 두고  설계되어 Armbian 같은 최근 운영체제를 불러올 수 없다 ([[https://forum.odroid.com/viewtopic.php?p=314003#p314003][참고]]).
+따라서, 다른 OS를 설치하더라도 SPI 플래시에 저장된 부트로더에 가로막혀 부팅이 되지 않는다.
+케이스 하단에 위치한 버튼을 누른 채로 전원을 연결하면 일시적으로 부트로더를 우회하여 바로 microSD로 부팅할 수 있지만, 매번 전원을 켤 때마다 전원을 눌러야 해서 불편하다.
+아래 방법을 이용해서 SPI 플래시를 초기화할 수 있다.
+
+디스플레이와 키보드를 연결하고 전원을 연결하여 Petitboot 환경으로 부팅한다.
+
+다음 Petitboot 메뉴에서 *Exit to shell*​을 선택하고 아래 명령으로 SPI 플래시를 지운다.
+
+#+begin_src shell
+  flash_eraseall /dev/mtd0
+  flash_eraseall /dev/mtd1
+  flash_eraseall /dev/mtd2
+  flash_eraseall /dev/mtd3
+#+end_src
+
+이제 SPI 플래시가 지워졌으니, 전원을 분리하고 다시 연결하면 microSD로 부팅이 된다.
+
+** 기본 부트로더 복구하기
+[[https://forum.odroid.com/viewtopic.php?f=207&t=40906][여기]]에서 설명하는 방법을 따르면 된다.
+
+먼저 [[http://ppa.linuxfactory.or.kr/images/petitboot/odroidhc4/][여기]]에서 ~spiupdate...~ 이미지 파일을 내려받는다.
+이 파일은 부팅 후 자동으로 SPI 플래시를 업데이트하는 이미지이므로 microSD 카드에 플래싱한다.
+
+케이스를 옆으로 세우고, 긴 막대로 케이스 하단의 버튼을 누르면서 전원을 연결한다.
+파란색 LED가 켜지기 전까지만 누른다.
+
+디스플레이를 연결하면 플래싱 상황을 확인할 수 있다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+** 
