@@ -2,6 +2,7 @@
 :ID:       30fda4d0-3b7d-4b66-bb27-d8d74990988b
 :END:
 #+title: 미도리 사워
+#+category: mixology
 
 *미도리 사워 (/Midori Sour/)*​는 [[https:www.suntory.com/][산토리]]에서 판매하는 리큐르 /미도리/​를 이용하는 메론맛 칵테일이다.
 레몬이 들어가기 때문에 미도리 *샤*​워가 아니라 미도리 *사*​워가 올바른 표현이다.

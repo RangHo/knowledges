@@ -7,7 +7,7 @@
 
 * Framework Laptop 13 AMD 1st Generation
 1세대 Framework Laptop 13 AMD는 2023년 5월에 공개되었다.
-내가 가지고 있는 사양은 아래와 같다.
+지금 가지고 있는 컴퓨터의 사양은 아래 참고.
 
 | CPU     | AMD Ryzen 7 7840U          |
 | iGPU    | AMD Radeon 780M Graphics   |
@@ -15,3 +15,4 @@
 | Storage | Samsung SSD 980 Pro (2 TB) |
 
 ** 배터리 사용량 최적화
+리눅스 환경도 고려하여 설계되었다고는 하나, 

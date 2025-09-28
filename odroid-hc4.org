@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       e83ca005-b974-4212-b8db-8ad1edb1bd81
 :END:
-#+title: ODROID-HC4 Single-board Computer
+#+title: ODROID-HC4
 
 *오드로이드 HC4*​는 [[https://www.hardkernel.com][하드커널]]에서 개발한 싱글 보드 컴퓨터이다.
 
@@ -23,7 +23,7 @@
 
 * 팁
 ** 기본 설치된 부트로더 우회하기
-기본 설치된 부트로더는 예전 커널 버전을 염두에 두고  설계되어 Armbian 같은 최근 운영체제를 불러올 수 없다 ([[https://forum.odroid.com/viewtopic.php?p=314003#p314003][참고]]).
+기본 설치된 부트로더는 예전 커널 버전을 염두에 두고 설계되어 Armbian 같은 최근 운영체제를 불러올 수 없다 ([[https://forum.odroid.com/viewtopic.php?p=314003#p314003][참고]]).
 따라서, 다른 OS를 설치하더라도 SPI 플래시에 저장된 부트로더에 가로막혀 부팅이 되지 않는다.
 케이스 하단에 위치한 버튼을 누른 채로 전원을 연결하면 일시적으로 부트로더를 우회하여 바로 microSD로 부팅할 수 있지만, 매번 전원을 켤 때마다 전원을 눌러야 해서 불편하다.
 아래 방법을 이용해서 SPI 플래시를 초기화할 수 있다.
