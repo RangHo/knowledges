@@ -1,0 +1,190 @@
+:PROPERTIES:
+:ID:       cec66f4d-f724-4bf3-86ea-f6ecc626813b
+:END:
+#+title: CompCert
+
+* Notable Files
+아래는 CompCert의 컴파일 및 검증 과정에 대해 알아보기 좋은 샘플 파일 목록이다.
+
+** ~common/Smallstep.v~
+위 파일에서는 RTL, Clight 등 이후 작업에서 사용하는 의미론적 개념을 추상화하여 일반적인 논리의 기반을 설명한다.
+
+#+name: common/Smallstep.v#L520
+#+begin_src coq
+  Record semantics : Type := Semantics_gen {
+                                 state: Type;
+                                 genvtype: Type;
+                                 step : genvtype -> state -> trace -> state -> Prop;
+                                 initial_state: state -> Prop;
+                                 final_state: state -> int -> Prop;
+                                 globalenv: genvtype;
+                                 symbolenv: Senv.t
+                               }.
+#+end_src
+
+위 레코드가 이후 중간 표현식 의미론의 기반을 이룬다.
+
+#+name: common/Smallstep.v#562
+#+begin_src coq
+  Record fsim_properties (L1 L2: semantics) (index: Type)
+    (order: index -> index -> Prop)
+    (match_states: index -> state L1 -> state L2 -> Prop) : Prop := {
+      fsim_order_wf: well_founded order;
+      fsim_match_initial_states:
+      forall s1, initial_state L1 s1 ->
+                 exists i, exists s2, initial_state L2 s2 /\ match_states i s1 s2;
+      fsim_match_final_states:
+      forall i s1 s2 r,
+        match_states i s1 s2 -> final_state L1 s1 r -> final_state L2 s2 r;
+      fsim_simulation:
+      forall s1 t s1', Step L1 s1 t s1' ->
+                       forall i s2, match_states i s1 s2 ->
+                                    exists i', exists s2',
+                                      (Plus L2 s2 t s2' \/ (Star L2 s2 t s2' /\ order i' i))
+                                      /\ match_states i' s1' s2';
+      fsim_public_preserved:
+      forall id, Senv.public_symbol (symbolenv L2) id = Senv.public_symbol (symbolenv L1) id
+    }.
+
+  Arguments fsim_properties: clear implicits.
+
+  Inductive forward_simulation (L1 L2: semantics) : Prop :=
+    Forward_simulation (index: Type)
+      (order: index -> index -> Prop)
+      (match_states: index -> state L1 -> state L2 -> Prop)
+      (props: fsim_properties L1 L2 index order match_states).
+
+  Arguments Forward_simulation {L1 L2 index} order match_states props.
+#+end_src
+
+두 의미론적 표현에 따른 전방향 시뮬레이션은 위와 같이 나타낼 수 있다.
+
+#+name: common/Smallstep.v#L1287
+#+begin_src coq
+  Record bsim_properties (L1 L2: semantics) (index: Type)
+    (order: index -> index -> Prop)
+    (match_states: index -> state L1 -> state L2 -> Prop) : Prop := {
+      bsim_order_wf: well_founded order;
+      bsim_initial_states_exist:
+      forall s1, initial_state L1 s1 -> exists s2, initial_state L2 s2;
+      bsim_match_initial_states:
+      forall s1 s2, initial_state L1 s1 -> initial_state L2 s2 ->
+                    exists i, exists s1', initial_state L1 s1' /\ match_states i s1' s2;
+      bsim_match_final_states:
+      forall i s1 s2 r,
+        match_states i s1 s2 -> safe L1 s1 -> final_state L2 s2 r ->
+        exists s1', Star L1 s1 E0 s1' /\ final_state L1 s1' r;
+      bsim_progress:
+      forall i s1 s2,
+        match_states i s1 s2 -> safe L1 s1 ->
+        (exists r, final_state L2 s2 r) \/
+          (exists t, exists s2', Step L2 s2 t s2');
+      bsim_simulation:
+      forall s2 t s2', Step L2 s2 t s2' ->
+                       forall i s1, match_states i s1 s2 -> safe L1 s1 ->
+                                    exists i', exists s1',
+                                      (Plus L1 s1 t s1' \/ (Star L1 s1 t s1' /\ order i' i))
+                                      /\ match_states i' s1' s2';
+      bsim_public_preserved:
+      forall id, Senv.public_symbol (symbolenv L2) id = Senv.public_symbol (symbolenv L1) id
+    }.
+
+  Arguments bsim_properties: clear implicits.
+
+  Inductive backward_simulation (L1 L2: semantics) : Prop :=
+    Backward_simulation (index: Type)
+      (order: index -> index -> Prop)
+      (match_states: index -> state L1 -> state L2 -> Prop)
+      (props: bsim_properties L1 L2 index order match_states).
+
+  Arguments Backward_simulation {L1 L2 index} order match_states props.
+#+end_src
+
+비슷하게, 후방향 시뮬레이션은 위와 같이 표현 가능하다.
+
+#+name: common/Smallstep.v#1861
+#+begin_src coq
+  Lemma forward_to_backward_simulation:
+    forall L1 L2,
+      forward_simulation L1 L2 -> receptive L1 -> determinate L2 ->
+      backward_simulation L1 L2.
+  Proof.
+    intros L1 L2 FS L1_receptive L2_determinate.
+    destruct FS as [index order match_states FS].
+    apply Backward_simulation with f2b_order (f2b_match_states L1 L2 match_states); constructor.
+    - (* well founded *)
+      apply wf_f2b_order.
+    - (* initial states exist *)
+      intros. exploit (fsim_match_initial_states FS); eauto. intros [i [s2 [A B]]].
+      exists s2; auto.
+    - (* initial states *)
+      intros. exploit (fsim_match_initial_states FS); eauto. intros [i [s2' [A B]]].
+      assert (s2 = s2') by (eapply sd_initial_determ; eauto). subst s2'.
+      exists (F2BI_after O); exists s1; split; auto. econstructor; eauto.
+    - (* final states *)
+      intros. inv H.
+      exploit f2b_progress; eauto. intros TRANS; inv TRANS.
+      assert (r0 = r) by (eapply (sd_final_determ L2_determinate); eauto). subst r0.
+      exists s1'; auto.
+      inv H4. exploit (sd_final_nostep L2_determinate); eauto. contradiction.
+      inv H5. congruence. exploit (sd_final_nostep L2_determinate); eauto. contradiction.
+      inv H2. exploit (sd_final_nostep L2_determinate); eauto. contradiction.
+    - (* progress *)
+      intros. inv H.
+      exploit f2b_progress; eauto. intros TRANS; inv TRANS.
+      left; exists r; auto.
+      inv H3. right; econstructor; econstructor; eauto.
+      inv H4. congruence. right; econstructor; econstructor; eauto.
+      inv H1. right; econstructor; econstructor; eauto.
+    - (* simulation *)
+      eapply f2b_simulation_step; eauto.
+    - (* symbols preserved *)
+      exact (fsim_public_preserved FS).
+  Qed.
+#+end_src
+
+다만, 두 시뮬레이션 중 우리가 실제 프로그램 검증에서 관심이 있는 부분은 프로그램 상세화를 증명할 수 있는 후방향 시뮬레이션이다.
+그런 의미에서 전방향 시뮬레이션은 위와 같이 후방향 시뮬레이션을 얻어내기 위한 중간 과정에 지나지 않는다고 이해할 수 있다.
+여기서 전방향 시뮬레이션을 후방향 시뮬레이션으로 변환하는 과정은 메타이론적으로 이루어진다는 것이 중요하다.
+(왜냐하면 어차피 concrete한 시뮬레이션은 RTL이나 Clight의 의미론이 확정되어야 하니까?)
+
+
+** ~backend/Renumber.v~, ~backend/Renumberproof.v~
+CompCert에서 데이터의 흐름을 분석하는 ~Kildall~ 모듈은 주어진 배열 순서가 CFG의 후위 검색[postorder traversal] 순서와 같을 때 가장 잘 동작하는 것으로 알려져 있다.
+CFG가 생성될 당시에는 이 특성이 잘 보존되어 있다고 증명되어 있지만, RTL을 최적화하는 과정에서 이 특성이 깨질 수도 있다.
+따라서, ~Renumber~ 모듈을 이용하여 이 특성을 다시 맞추어 주고, 그 과정을 ~Renumberproof~​에서 증명한다.
+
+#+name: backend/Renumber.v#67
+#+begin_src coq
+  Definition transf_function (f: function) : function :=
+    let pnum := postorder (successors_map f) f.(fn_entrypoint) in
+    mkfunction
+      f.(fn_sig)
+          f.(fn_params)
+              f.(fn_stacksize)
+                  (renum_cfg pnum f.(fn_code))
+                  (renum_pc pnum f.(fn_entrypoint)).
+
+  Definition transf_fundef (fd: fundef) : fundef :=
+    AST.transf_fundef transf_function fd.
+
+  Definition transf_program (p: program) : program :=
+    AST.transform_program transf_fundef p.
+#+end_src
+
+위와 같이 배열 순서를 재귀적으로 변환하여 새로운 RTL 형태를 생성하게 된다.
+
+#+name: backend/Renumberproof.v#252
+#+begin_src coq
+  Theorem transf_program_correct:
+    forward_simulation (RTL.semantics prog) (RTL.semantics tprog).
+  Proof.
+    eapply forward_simulation_step.
+    apply senv_preserved.
+    eexact transf_initial_states.
+    eexact transf_final_states.
+    exact step_simulation.
+  Qed.
+#+end_src
+
+또한, 이 과정을 위에서 정의한 ~Smallstep~ 모듈을 사용하여 검증할 수 있다.
