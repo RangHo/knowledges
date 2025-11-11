@@ -1,0 +1,8 @@
+:PROPERTIES:
+:ID:       2a058429-e5d2-4f5d-88b5-3e290713a73b
+:END:
+#+title: 양자 역학
+
+\begin{equation}
+i \hbar \frac{d}{dt} | \Psi \rangle = \hat{H} | \Psi \rangle
+\end{equation}
