@@ -1,0 +1,83 @@
+:PROPERTIES:
+:ID:       84cc9463-047d-4f5c-9522-3c5ef3d2a6f1
+:END:
+#+title: RefinedC
+
+[[doi:10.1145/3453483.3454036][RefinedC: Automating the Foundational Verification of C Code with Refined Ownership Types]]
+
+* Introduction
+
+* RefinedC by Example
+
+* RefinedC Front End and Caesium
+
+
+* RefinedC Types and Specifications
+RefinedC는 [[https://best.openssf.org/Compiler-Hardening-Guides/Compiler-Annotations-for-C-and-C++.html][C 컴파일러 어노테이션]]을 이용하여 ~[​[rc::...]​]~​와 같은 꼴으로 언어의 여러 기능에 타입을 부여한다.
+여기서 사용하는 타입은 종류에 따라 네 가지로 나누어볼 수 있다.
+
+** Refinement Types
+C 데이터에 대한 invariant 타입이다.
+
+*** 예시
+- ~n @ int<size_t>~ :: C integer of type size_t, encoding n.
+- ~b @ optional<T1, T2>~ :: Type lefel distinction of "if b is true then T1, else T2".
+
+** Ownership Types
+메모리 소유 등 상태에 관한 타입이다.
+
+*** 예시
+- ~l @ &own(T)~ :: Ownership of ~T~ at memory location ~l~.
+- ~uninit(n)~ :: ~n~ bytes of uninitialized garbage data.
+
+** Generated Types
+정확히는 위 두 종류에 포함되나, RefinedC 사용자가 직접 작성하는 일이 거의 없고 보통 다른 타입 어노테이션으로부터 생성되는 타입이다.
+
+*** 예시
+- ~struct_s Ts~ :: C structure of layout ~s~ with members of types ~Ts~.
+- ~padded(T, n)~ :: Type ~T~ padded by ~n~ bytes.
+
+** Function Types
+함수는 RefinedC에서 일등 시민[first-class citizen]으로 취급되며, 아래와 같은 타입을 가진다.
+
+\begin{equation}
+\texttt{fn}(\forall x . T_{arg}; H_{pre}) \rightarrow \exists y . T_{ret}; H_{post}
+\end{equation}
+  
+* Lithium: Separation Logic Programming
+Lithium은 위에서 정의한 RefinedC 타입을 기반으로 [[id:dc8aa0e6-81e6-474d-a119-328601bbc0fa][분리 논리]]를 이용한 검증 규칙을 통틀어 일컫는다.
+해당 규칙은 [[id:548ce368-395e-40b5-93dd-df5bd5aa5d3a][Ltac 증명전략 정의 언어]]로 구현되어 있다.
+
+** Lithium Syntax
+기본적인 Lithium 판단(judgement)의 꼴은 아래와 같다.
+
+\begin{equation}
+\Gamma ; \Delta \Vdash G
+\end{equation}
+
+- \( \Gamma \) :: 무제한 문맥(unrestricted context)을 나타낸다.
+  이 문맥의 요소는 몇 번이고 복제해서  사용할수 있으며, 보편 양화(universal quantification) 변수나 명제(proposition) 등이 있다.
+- \( \Delta \) :: 자원 문맥(resource context)을 나타낸다.
+  이 문맥의 요소는 자원 소유권을 가질 수도 있기 때문에 복제할 수 없다.
+- \( G \) :: 목표(goal)를 나타낸다.
+
+위 꼴으로부터 Lithium의 문법은 아래와 같이 정의할 수 있다.
+
+\begin{align}
+\texttt{Atom} &\quad A ::= \mathcal{l} \triangleleft_{l} \tau \ |\ v \triangleleft_{v} \tau \ |\ \dots \\
+\texttt{Basic Goal} &\quad F ::= \vdash^{\Sigma}_{\texttt{STMT}} s \ |\ A_{1} <: A_{2} \ \{ G \} \ |\ \dots \\
+\texttt{Goal} &\quad G ::= \texttt{True} \ |\ F \ |\ H * G \ |\ H \mathrel{- \mkern-6mu*} G \ |\ G_{1} \wedge G_{2} \ |\ \forall x.G(x) \ |\ \exists x.G(x) \\
+\texttt{Left Goal} &\quad H ::= \ulcorner \phi \urcorner \ |\ A \ |\ H * H \ |\ \exists x.H(x) \\
+\texttt{Contexts} &\quad \Gamma ::= \emptyset \ |\ \Gamma,x \ |\ \Gamma,\phi \qquad \Delta ::= \emptyset \ |\ \Delta,A
+\end{align}
+
+** Goal-directed Search
+Lithium에서 \( \Gamma ; \Delta \Vdash G \)의 증명을 찾는 과정은 목표 \( G \)를 중심으로 이루어진다.
+여기서 \( G \)에 대한 증예 분석(case analysis)를 거치며 정해진 규칙에 따라 목표를 분리, 증명한다.
+모든 증예에 대응하는 증명 규칙은 분리 논리에서 사용하는 규칙을 기반으로 정의되어 있다.
+
+** No Backtracking
+목표를 탐색할 때, separating conjunction(\( * \))과 separating implication(\( \mathrel{- \mkern-6mu*} \))의 좌항에 모든 목표를 넣을 수 있도록 허용하게 되면 각 항의 목표를 증명하기 위해 자원 문맥 \( \Delta \)를 분기하여 각각 증명해야 한다.
+이 분기를 처리하고자 하면 필연적으로 백트래킹이 발생하고, 그만큼 증명 효율을 떨어뜨린다.
+
+따라서 RefinedC에서는 separating conjunction과 separating implication의 좌항에 여러 재작성 규칙을 거쳐 곧바로 원자(atom)로 만들 수 있는 목표(즉, 위에 등장한 ~Left Goal~)만을 허용하는 것으로 백트래킹의 필요성을 없앴다.

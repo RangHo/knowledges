@@ -1,0 +1,6 @@
+:PROPERTIES:
+:ID:       50d59131-d467-4c39-ba35-1e5d88fb2b5c
+:END:
+#+title: 호어 논리
+
+*호어 논리(Hoare logic)* 또는 *플로이드-호어 논리(Floyd-Hoare logic)*

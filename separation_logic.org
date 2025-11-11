@@ -1,0 +1,6 @@
+:PROPERTIES:
+:ID:       dc8aa0e6-81e6-474d-a119-328601bbc0fa
+:END:
+#+title: 분리 논리
+
+*분리 논리(separation logic)*​은 [[id:50d59131-d467-4c39-ba35-1e5d88fb2b5c][호어 논리]]를 확장한 개념으로, 메모리의 특정 부분이 서로 분리되어 있을 수 있다는 사실을 명시한 이론이다.
