@@ -5,6 +5,26 @@
 
 *CompCert*​는 AbsInt에서 개발 중인 정형 검증 [[id:65864ab6-ebe0-4d26-9ce0-38c12003b0b8][C99]] 컴파일러이다.
 
+* Source, Intermediate, and Target Languages
+CompCert는 C 소스코드에서 [[id:213961e9-6a4f-4f8c-b3e4-51e23d66d906][어셈블리어]]까지 여러 중간 언어와 중간 표현식이 존재한다.
+
+- CompCert C :: C의 형태를 거의 그대로 보존하고 있는 형태로, 실제 C 코드에서 문자열 리터럴이 없다거나 몇몇 연산자가 의미에 따라 다른 연산자로 분류되는 정도밖에 차이가 없다.
+- Clight :: CompCert C에서 시작하여 부수 효과를 발생시키는 C 구문을 전부 순수[pure]하게 바꾸고, 함수 호출과 값 대입 연산을 식[expression]에서 문[statement]로 변환한다.
+  또, 스칼라 지역변수를 메모리에서 제거하는 역할도 담당한다.
+- Csharpminor :: 타입에 따라 달라지는 모든 구문(연산자 오버로딩 등)을 미리 특정하고, Clight의 ~switch~​문이나 반복문을 Csharpminor에서 새로 제작한 실행 구조로 변환한다.
+- Cminor :: Csharpminor 블록에서 이미 주소가 저장된 지역 변수를 모두 빼내어 스택에 할당한다.
+  해당 지역 변수에 접근하는 행위는 모두 스택 주소에 값을 저장하거나 읽어들이는 연산으로 변환된다.
+  Clight 단계에서 제거된 스칼라 지역변수는 애초에 메모리 주소를 가지지 않으므로 Cminor 단계에서도 지역변수 형태로 남는다.
+  또한 Csharpminor의 ~switch~​문이 더욱 저수준의 Cminor ~switch~​문으로 변환된다.
+- CminorSel :: Cminor에서 변환한 연산자나 구문을 다시 분석하여, ~switch~​문은 [[id:694085e5-5be1-41c5-8624-9dd238ccc82c][결정 트리]]의 형태로 바꾸고, 각 연산자에 대하여 타겟 프로세서에 최적화된 연산을 선택한다.
+- RTL :: 지금까지 선택하여 간단하게 만든 실행 구조를 바탕으로 실행 흐름 그래프[control flow graph, CFG]를 조립한다.
+  이 단계에서 꼬리 재귀 호출[tail recursion call]을 인식하거나 함수 인라인, 상수 전파[constant propagation] 등 많은 최적화를 진행한다.
+- LTL :: 최적화가 어느정도 된 CFG를 바탕으로 타겟 아키텍처에 맞게 레지스터를 지정한다.
+  이후 브랜치 터널링(branch tunneling) 기법을 이용하여 분기 횟수를 줄인다.
+- Linear :: 이제 CFG 형태를 선형으로 재조합한 뒤 불필요한 레이블을 제거하고 디버그에 필요한 정보를 추출한다.
+- Mach :: 선형으로 재조합된 코드에서 각 함수별 스택 프레임(stack frame)과 자원 한계[resource bound]를 찾는다.
+- Asm :: 지금까지 알아낸 정보를 바탕으로 실제 컴퓨터에서 실행 가능한 어셈블리어를 내보낸다.
+
 * Notable Files
 아래는 CompCert의 컴파일 및 검증 과정에 대해 알아보기 좋은 샘플 파일 목록이다.
 

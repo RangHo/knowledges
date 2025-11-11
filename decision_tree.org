@@ -1,0 +1,4 @@
+:PROPERTIES:
+:ID:       694085e5-5be1-41c5-8624-9dd238ccc82c
+:END:
+#+title: 결정 트리

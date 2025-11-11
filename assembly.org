@@ -1,0 +1,4 @@
+:PROPERTIES:
+:ID:       213961e9-6a4f-4f8c-b3e4-51e23d66d906
+:END:
+#+title: 어셈블리
