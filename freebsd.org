@@ -5,11 +5,11 @@
 
 *FreeBSD*​는 Berkeley Software Distribution에서 파생된 UNIX 운영체제이다.
 
-* Framework Laptop 13 AMD 1세대 관련 문제 및 해결법
+* Tips and Tricks
 
 Framework에서 공식적으로 트래킹 중인 [[https://github.com/FrameworkComputer/freebsd-on-framework][GitHub 레포지토리]]가 있다.
 
-* Framework Laptop 13 AMD 1세대에서 FreeBSD 부팅하기
+** Framework Laptop 13 AMD 1세대에서 FreeBSD 부팅하기
 [[id:f474da4b-2e35-496f-b48c-52db6048ecab][Framework Laptop 13]]에서 FreeBSD를 부팅하려면 몇 가지 준비가 필요하다.
 (=FreeBSD 15-CURRENT (20240605)= 기준)
 
