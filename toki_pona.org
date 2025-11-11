@@ -1,0 +1,11 @@
+:PROPERTIES:
+:ID:       5cca8444-0b93-46bb-b904-f6bfca21470f
+:END:
+#+title: toki pona
+
+*도기 보나(toki pona)*​는 2001년 손야 랑(Sonja Lang)이 고안한 인공어이다.
+
+* 외부 링크
+- [[https://nimi.li/][nimi.li 도기 보나 사전]]
+- [[https://jan-ne.github.io/tp/dictionary][pu 사전]]
+- 영문 위키책의 [[https://en.wikibooks.org/wiki/Updated_jan_Pije%27s_lessons][jan Pije's lessons]]
