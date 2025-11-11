@@ -1,5 +1,52 @@
 :PROPERTIES:
 :ID:       65864ab6-ebe0-4d26-9ce0-38c12003b0b8
-:CREATED:  [2025-11-11 Tue 13:43]
 :END:
-#+title: C 언어
+#+title: C
+
+* 이상한 C 코드 모음
+아래는 사람들이 잘 모르는 C의 기능을 사용하거나 직관적이지 않은 방향으로 최적화를 한 "이상한" C 코드 모음이다.
+
+** Duff's Device
+더프의 장치[Duff's device]는 반복문 풀기[loop unrolling] 기법을 직접 적용하여 오래된 시스템에서 C의 ~memcpy~ 함수와 같은 기능을 더 빠르게 구현한다.
+
+#+begin_src c
+  void send(register short *to, register short *from, register int count)
+  {
+       register int n = (count + 7) / 8;
+       switch (count % 8) {
+       case 0: do { *to = *from++;
+       case 7:      *to = *from++;
+       case 6:      *to = *from++;
+       case 5:      *to = *from++;
+       case 4:      *to = *from++;
+       case 3:      *to = *from++;
+       case 2:      *to = *from++;
+       case 1:      *to = *from++;
+               } while (--n > 0);
+       }
+  }
+#+end_src
+
+** Fast Inverse Square Root
+고속 역 제곱근[fast inverse square root]은 IEEE 754 binary32 둥둥소수점 수의 비트열을 정수로 강제로 해석하는 방식으로 상수 시간(\( \mathcal{O}(1) \)) 안에 주어진 수의 제곱근의 역수를 산출하는 알고리즘이다.
+
+#+begin_src c
+  float Q_rsqrt(float number)
+  {
+       long i;
+       float x2, y;
+       const float threehalfs = 1.5f;
+
+       x2 = number * 0.5F;
+       y  = number;
+       i  = * ( long * ) &y;                       // evil floating point bit level hacking
+       i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
+       y  = * ( float * ) &i;
+       y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
+  //   y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+
+       return y;
+  }
+#+end_src
+
+여기에서 상수 ~0x5f3759df~​는 약 \( \sqrt{2^{127}} \) 정도이다.
