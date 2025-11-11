@@ -1,0 +1,116 @@
+:PROPERTIES:
+:ID:       8a6e41d4-2c7c-4f39-98be-3e8d2ca98806
+:END:
+#+title: Interaction Tree
+
+[[doi:10.1145/3371119][Interaction Trees: Representing Recursive and Impure Programs in Coq]]
+
+* Abstract
+*상호작용 트리[interaction tree, ITree]*​는 타 환경과 상호작용하는 재귀 프로그램의 동작을 나타내는 자료구조이다.
+ITree는 이러한 프로그램의 동작을 상호 귀납적 모나드[coinductive monad]로 모델링하여 종료되거나 종료되지 않는 연산은 물론이고, 비순수 함수와 상호 재귀 연산을 표현할 수 있다.
+
+* Introduction
+
+* Interaction Trees
+어떤 프로그램이 다른 환경과 상호작용하는 연산을 수행한다고 할 때, 해당 연산은 "가시적 사건[visible event]"을 나열한 것으로 볼 수 있다.
+결과적으로 보았을 때, 어떤 연산은 어떤 값을 반환하며 종료될 수도, 가시적 사건을 발생시켜 환경으로부터 어떤 결과물을 가져올 수도 있으며, 가시적 사건을 발생시키지 않고 내부적으로 다른 연산으로 이행할 수도 있다.
+이러한 세 가지의 경우의 수를 ITree는 아래와 같이 상호 귀납적으로 정의한다.
+
+#+begin_src coq
+  CoInductive itree (E : Type -> Type) (R : Type) : Type :=
+  | Ret (r : R)
+  | Tau (t : itree E R)
+  | Vis {A : Type} (e : E A) (k : A -> itree E R).
+#+end_src
+
+여기서 ~itree~​의 타입 인자는 각각 아래와 같다.
+
+- ~E : Type -> Type~ :: 외부 상호작용 타입. 어떤 연산이 외부 환경과 어떻게 상호작용하는지 정의한다.
+- ~R : Type~ :: 연산 결과 타입. 연산이 종료되었을 때 반환하는 값의 타입이다.
+
+또한, 각 생성자[constructor]는 아래와 같다.
+
+- ~Ret (r : R)~ :: ~R~ 타입의 값 ~r~​을 반환하고 연산을 종료한다.
+- ~Tau (t : itree E R)~ :: 가시적 사건을 발생시키지 않는 내부 연산으로, 곧바로 ~t~ 형태로 이행한다.
+- ~Vis {A : Type} (e : E A) (k : A -> itree E R)~ :: 가시적 사건 ~e~​를 발생시켜 환경으로부터 ~A~ 타입의 결과를 가져와서 "지속 함수" ~k~​를 통해 다음 연산으로 이행한다.
+
+여기서 ~Vis~ 생성자의 ~k~ 인자가 결과값으로부터 서로 다른 연산으로 이행시키므로 ITree의 트리 형태는 ~Vis~ 생성자로부터 나온다고 할 수 있다.
+
+여기서 자연수를 입력받거나 자연수를 출력하는 입출력 타입 ~IO~​를 생각해 보자.
+
+#+begin_src coq
+  Inductive IO : Type -> Type :=
+  | Input : IO nat
+  | Output : nat -> IO unit.
+#+end_src
+
+이 타입을 이용한 다양한 ITree 예제를 만들 수 있다.
+
+아래는 입력을 받아 그대로 출력하는 일을 반복하는 ~echo~ 프로그램이다.
+
+#+begin_src coq
+  CoFixpoint echo : itree IO void :=
+    Vis Input (fun x => Vis (Output x) (fun _ => echo)).
+#+end_src
+
+아래는 값을 반환하지 않고 계속 내부 연산만 수행하는 ~spin~ 프로그램이다.
+
+#+begin_src coq
+  CoFixpoint spin : itree IO void :=
+    Tau spin
+#+end_src
+
+아래는 타 환경에서 자연수 9를 받으면 반환하고, 그렇지 않으면 계속 반복하는 ~kill9~ 프로그램이다.
+
+#+begin_src coq
+  CoFixpoint kill9 : itree IO unit :=
+    Vis Input (fun x => if x =? 9 then Ret tt else kill9).
+#+end_src
+
+** Composing ITree Computations: ITrees are Monads
+
+** ITree Equivalences
+
+** KTrees: Continuation Trees
+
+* Semantics of Events and Monadic Interpreters
+
+** Example: Interpreting State Events
+
+** Monadic Interpreters
+
+** The Algebra of Events and ITree Event Handlers
+
+* Iteration and Recursion
+
+** Iteration
+
+** Recursion
+
+* Case Study: Verified Compilation of IMP to ASM
+
+** A Denotational Semantics for IMP
+
+** A Denotaitonal Semantics for ASM
+
+** Linking of Control-flow Subgraphs
+
+** Compiler Correctness
+
+* Extracting ITrees
+
+* Relating ITrees and Trace Semantics
+
+* Related Work
+
+**  Monads, Monad Transformations, and Free Monads
+
+** Algebraic Effects and Handlers
+
+** Effects in Type Theory
+
+** Composition with the Environment
+
+** Formal Semantics
+
+* Conclusion
