@@ -3,6 +3,8 @@
 :END:
 #+title: CompCert
 
+*CompCert*​는 AbsInt에서 개발 중인 정형 검증 [[id:65864ab6-ebe0-4d26-9ce0-38c12003b0b8][C99]] 컴파일러이다.
+
 * Notable Files
 아래는 CompCert의 컴파일 및 검증 과정에 대해 알아보기 좋은 샘플 파일 목록이다.
 

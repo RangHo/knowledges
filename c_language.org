@@ -1,0 +1,5 @@
+:PROPERTIES:
+:ID:       65864ab6-ebe0-4d26-9ce0-38c12003b0b8
+:CREATED:  [2025-11-11 Tue 13:43]
+:END:
+#+title: C 언어
