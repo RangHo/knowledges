@@ -1,0 +1,8 @@
+:PROPERTIES:
+:ID:       9802ff38-e0ee-4997-a1e4-13ece8ea6b3c
+:END:
+#+title: Iris
+
+*Iris*​는 [[id:d7851ed5-e995-4433-bacf-b40f09e23905][Rocq Prover]]로 [[id:dc8aa0e6-81e6-474d-a119-328601bbc0fa][분리 논리]]를 이용한 증명을 수행할 수 있게 돕는 논리 프레임워크이다.
+
+* Basics
