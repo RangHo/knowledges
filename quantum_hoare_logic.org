@@ -1,0 +1,4 @@
+:PROPERTIES:
+:ID:       13ebe7bd-4d44-4144-8a29-5c5fcace3968
+:END:
+#+title: 양자 호어 논리

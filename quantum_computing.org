@@ -5,6 +5,6 @@
 
 *양자 컴퓨팅*​은 [[id:2a058429-e5d2-4f5d-88b5-3e290713a73b][양자 역학]] 현상을 이용하여 연산을 수행하는 일을 통칭한다.
 
-* 읽을거리
+* 읽을 거리
 
 - [[https://elsman.com/pdf/wqs25-final.pdf][Deriving a Kronecker-free Functional Quantum Simulator (Elsman, 2025)]]

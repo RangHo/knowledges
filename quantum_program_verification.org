@@ -1,0 +1,9 @@
+:PROPERTIES:
+:ID:       5acccd60-4454-42bf-a43b-62d657bc58e7
+:END:
+#+title: 양자 프로그램 검증
+
+* 읽을 거리
+- [[https://doi.org/10.1145/3434318][A Verified Optimizer for Quantum Circuits]]
+- [[https://doi.org/10.1145/3290345][Game Semantics for Quantum Programming]]
+- [[https://doi.org/10.48550/arXiv.2511.22734][Denotational Semantics for Stabiliser Quantum Programs]]
