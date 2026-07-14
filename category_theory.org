@@ -1,0 +1,12 @@
+:PROPERTIES:
+:ID:       a12b1d97-535e-47ee-b3c3-00a5f54a9615
+:END:
+#+title: 범주론
+
+*범주론[category theory]*​는 수학적 구조와 그 관계를 범주로 추상화하여 다루는 수학의 한 분야이다. 
+
+* 범주
+:PROPERTIES:
+:ID:       d4f6eb76-9389-442b-9ae7-e7ee8958234e
+:END:
+*범주[category]*​는 화살표로 연결된 여러 객체의 모임이다.

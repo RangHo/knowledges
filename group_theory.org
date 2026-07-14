@@ -1,0 +1,20 @@
+:PROPERTIES:
+:ID:       f4fb915a-623d-4ebc-b990-83b30b31f3ce
+:END:
+#+title: 군론
+
+*군론[group theory]*​은 군의 성질을 다루는 수학의 한 분야이다.
+
+* 군
+:PROPERTIES:
+:ID:       1c9a6bda-54d5-4865-9e28-96a364ecd777
+:END:
+*군[group]*​은 어떤 집합과 그 집합의 두 원소를 대상으로 하는 연산을 함께 묶어 형성되는 대수 구조이다.
+여기서 두 원소를 합하는 이항 연산의 결과는 연산의 인자와 같은 집합의 원소여야 한다.
+즉, 어떤 군 \( (G, \ast) \)에서 \( \forall a, b \in G \), \( a \ast b = c \)일 때, \( c \in G \) 역시 성립해야만 한다.
+
+이러한 군 \( (G, \ast) \)는 아래 군의 공리를 만족한다.
+
+- 결합법칙[associativity] :: \( \forall a, b, c \in G; a \ast (b \ast c) = (a \ast b) \ast c \)
+- 항등원[identity element]의 존재 :: \( \exists e \in G; \forall a \in G, e \ast a = a \text{and} a \ast e = a \)
+- 역원[inverse element]의 존재 :: \( \forall a \in G; \exists b \in G, a * b = e \)

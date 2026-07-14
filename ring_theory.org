@@ -1,0 +1,12 @@
+:PROPERTIES:
+:ID:       83ff78bf-7c3d-46dd-835d-cacae5691f06
+:END:
+#+title: 환론
+
+*환론[ring theory]*​은 환의 성질을 다루는 수학의 한 분야이다.
+
+* 환
+:PROPERTIES:
+:ID:       682ece40-fef2-4713-88bc-ee0a32756b47
+:END:
+*환[ring]*​은
