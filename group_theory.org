@@ -18,3 +18,29 @@
 - 결합법칙[associativity] :: \( \forall a, b, c \in G; a \ast (b \ast c) = (a \ast b) \ast c \)
 - 항등원[identity element]의 존재 :: \( \exists e \in G; \forall a \in G, e \ast a = a \text{and} a \ast e = a \)
 - 역원[inverse element]의 존재 :: \( \forall a \in G; \exists b \in G, a * b = e \)
+
+** 아벨 군
+:PROPERTIES:
+:ID:       e9093d93-1931-4ac4-a258-21d67954c7aa
+:END:
+*아벨 군[abelian group]*, 또는 *가환군[commutative group]*​은 교환법칙이 성립하는 군이다.
+
+이러한 군 \( (A, \ast ) \)는 아래 아벨 군의 공리를 만족한다.
+
+- 결합법칙[associativity] :: \( \forall a, b, c \in A; a \ast (b \ast c) = (a \ast b) \ast c \)
+- 항등원[identity element]의 존재 :: \( \exists e \in A; \forall a \in A, e \ast a = a ~ \text{and} ~ a \ast e = a \)
+- 역원[inverse element]의 존재 :: \( \forall a \in A; \exists b \in A, a * b = e \)
+- 교환법칙[commutativity] :: \( \forall a, b \in A; a \ast b = b \ast a \)
+
+* 반군
+:PROPERTIES:
+:ID:       ca150521-5852-47ff-a775-994ebbf60c23
+:END:
+*반군[semigroup]*​은 군과 비슷하게 어떤 집합과 그 집합의 두 원소를 대상으로 하는 연산을 함께 묶어 형성되는 대수 구조이다.
+다만, 군과 달리, 반군으로 분류하기 위한 필요조건은 집합이 해당 연산에 대하여 닫혀 있고, 이항 연산에 대한 결합법칙이 성립하는 것이다.
+
+** 모노이드
+:PROPERTIES:
+:ID:       b3ff86f2-70e7-4458-b366-968e4abcf914
+:END:
+*모노이드(monoid)*​는 항등원을 가진 반군이다.
