@@ -7,3 +7,4 @@
 - [[https://doi.org/10.1145/3434318][A Verified Optimizer for Quantum Circuits]]
 - [[https://doi.org/10.1145/3290345][Game Semantics for Quantum Programming]]
 - [[https://doi.org/10.48550/arXiv.2511.22734][Denotational Semantics for Stabiliser Quantum Programs]]
+- [[doi:10.1016/j.ic.2026.105417][A Practical Quantum Hoare Logic with Classical Variables]]
